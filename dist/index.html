@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TODO LIST</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="subject">
+      <h1>TODO LIST :)</h1>
+    </div>
+    <div class="container">
+      <div class="left-side">
+        <form class="todo-form">
+          <h2>Let's make TO-DO List!</h2>
+          <div class="field">
+            <label>Title :</label>
+            <input type="text" id="title" />
+          </div>
+          <div class="field">
+            <label>Category:</label>
+            <select id="Category">
+              <option value="bucketList">Bucket List</option>
+              <option value="study">Study</option>
+              <option value="exercise">exercise</option>
+              <option value="etc">ETC</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Due date :</label>
+            <input type="number" id="dueDate" />
+          </div>
+          <div class="field">
+            <label>Done ? </label>
+            <input
+              type="radio"
+              name="isDone"
+              id="false"
+              value="false"
+              checked
+            />
+            <label for="false">Not Yet</label>
+            <input type="radio" name="isDone" id="true" value="true" />
+            <label for="true">YES</label>
+          </div>
+          <button id="addBtn">ADD LIST</button>
+        </form>
+      </div>
+      <div class="right-side">
+        <h2>Show What you have to do!</h2>
+        <!-- output list -->
+        <ul class="todo-list"></ul>
+      </div>
+    </div>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

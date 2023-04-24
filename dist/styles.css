@@ -1,0 +1,119 @@
+html,
+body {
+  height: 100%;
+}
+
+.subject {
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-weight: 600;
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+ul {
+  list-style: none;
+}
+
+input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+div.field {
+  margin-bottom: 25px;
+}
+.todo-form,
+.container {
+  height: 85%;
+}
+
+.field {
+  margin-bottom: 10px;
+}
+
+#addBtn {
+  width: 100%;
+  height: 40px;
+  border: none;
+  font-size: large;
+  font-weight: 600;
+}
+
+#addBtn:hover {
+  background-color: #cedff6;
+}
+
+.deleteBtn {
+  width: 30px;
+  height: 30px;
+  margin-left: 10px;
+  background-color: transparent;
+  color: grey;
+  border: none;
+  font-weight: 600;
+}
+
+.deleteBtn:active,
+.deleteBtn:hover {
+  color: red;
+}
+
+label {
+  font-size: larger;
+}
+.left-side {
+  float: left;
+  width: 30%;
+  height: 90%;
+  padding: 2%;
+  border: 3px solid;
+  border-radius: 10px;
+  background-color: #545454;
+  color: white;
+}
+
+#title {
+  width: 85%;
+  height: 30px;
+}
+
+#Category {
+  width: 80%;
+  height: 30px;
+}
+
+#dueDate {
+  width: 77%;
+  height: 28px;
+}
+
+.right-side {
+  float: right;
+  width: 60%;
+  height: 90%;
+  padding: 2%;
+  border: 3px solid;
+  border-radius: 10px;
+  overflow: auto;
+}
+
+.category-span {
+  margin-left: 10px;
+  color: pink;
+}
+
+.complete {
+  color: #218e16;
+  text-decoration: line-through;
+}
+
+.processing {
+  color: #2774dc;
+}
+
+.empty-sentence {
+  color: grey;
+}
