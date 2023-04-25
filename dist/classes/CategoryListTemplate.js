@@ -16,5 +16,4 @@ export class CategoryListTemplate {
         li.append(h4);
         this.containner.append(li);
     }
-    ;
 }

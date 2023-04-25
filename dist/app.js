@@ -14,7 +14,7 @@ const emptyFormat = new EmptyTemplate(todoList);
 let local = LocalStorageController.getTodos();
 if (local.length == 0) {
     emptyFormat.render();
-    localStorage.clear();
+    localStorage.removeItem("todos");
 }
 // selectbox
 const select = document.querySelector("select");

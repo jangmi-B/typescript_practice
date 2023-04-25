@@ -22,6 +22,7 @@ class LocalStorageController {
     static getCategories() {
         let categories = [];
         let localStore = localStorage.getItem(this.CATEGORY_STORAGE_KEY);
+        console.log(localStore);
         if (localStore) {
             let parsedTodos = JSON.parse(localStore);
             categories = parsedTodos;
@@ -31,6 +32,7 @@ class LocalStorageController {
     }
     static saveCategories(category) {
         const categoryList = JSON.stringify(category);
+        console.log(category);
         localStorage.setItem(this.CATEGORY_STORAGE_KEY, categoryList);
     }
 }

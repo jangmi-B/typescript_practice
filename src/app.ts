@@ -17,7 +17,7 @@ const emptyFormat = new EmptyTemplate(todoList);
 let local = LocalStorageController.getTodos();
 if (local.length == 0) {
   emptyFormat.render();
-  localStorage.clear();
+  localStorage.removeItem("todos");
 }
 
 // selectbox
@@ -72,7 +72,7 @@ form.addEventListener("submit", (e: Event) => {
     alert("내용을 입력해주세요");
     return;
   }
- 
+
   // 유효한 날짜인지 확인
   if (!todoItem.isValid(dueDate)) {
     dueDate.focus();

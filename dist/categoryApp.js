@@ -1,6 +1,6 @@
 import { CategoryListTemplate } from "./classes/CategoryListTemplate.js";
 import { LocalStorageController } from "./classes/LocalStorageController.js";
-import { Category } from "./classes/category.js";
+import { Category } from "./classes/Category.js";
 const form = document.querySelector(".category-form");
 const addBtn = document.querySelector("button");
 const categoryList = document.querySelector("ul");

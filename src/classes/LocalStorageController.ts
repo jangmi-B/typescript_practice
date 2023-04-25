@@ -1,5 +1,5 @@
 import { HasFormatter } from "../Interface/HasFormatter.js";
-import { Category } from "./category";
+import { Category } from "./Category.js";
 
 export class LocalStorageController {
   private static readonly TODO_STORAGE_KEY = "todos";
@@ -30,20 +30,22 @@ export class LocalStorageController {
   }
 
   /////////////////////////////////////////////////
-  
-  static getCategories():Category[]{
-    let categories:Category[] = [];
+
+  static getCategories(): Category[] {
+    let categories: Category[] = [];
     let localStore = localStorage.getItem(this.CATEGORY_STORAGE_KEY);
+    console.log(localStore);
     if (localStore) {
-      let parsedTodos= JSON.parse(localStore);
+      let parsedTodos = JSON.parse(localStore);
       categories = parsedTodos;
       return categories;
     }
     return [];
   }
 
-  static saveCategories(category:Category[]){
+  static saveCategories(category: Category[]) {
     const categoryList = JSON.stringify(category);
+    console.log(category);
     localStorage.setItem(this.CATEGORY_STORAGE_KEY, categoryList);
   }
 }
