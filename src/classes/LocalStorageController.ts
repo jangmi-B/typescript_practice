@@ -1,15 +1,12 @@
 import { HasFormatter } from "../Interface/HasFormatter.js";
+import { Category } from "./category";
 
 export class LocalStorageController {
-  private static readonly STORAGE_KEY = "todos";
+  private static readonly TODO_STORAGE_KEY = "todos";
+  private static readonly CATEGORY_STORAGE_KEY = "categories";
 
-  /*
-    static 키워드를 사용하면 인스턴스를 생성하지 않아도 변수나 메서드를 
-    바로 사용할 수 있습니다. 코드의 가독성과 유지보수성이 향상될 수 있습니다.
-    => 어떤 역할을 할지 모르니까 static보다는 new 연산자로 생성하는게 좋음
-  */
   static getTodos(): HasFormatter[] {
-    const localStore = localStorage.getItem(this.STORAGE_KEY);
+    const localStore = localStorage.getItem(this.TODO_STORAGE_KEY);
 
     if (localStore) {
       let todos: HasFormatter[] = this.getItems();
@@ -20,15 +17,33 @@ export class LocalStorageController {
 
   static saveTodos(todos: HasFormatter[]): void {
     const todosList = JSON.stringify(todos);
-    localStorage.setItem(this.STORAGE_KEY, todosList);
+    localStorage.setItem(this.TODO_STORAGE_KEY, todosList);
   }
 
   static getItems(): HasFormatter[] {
     let todos: HasFormatter[] = [];
-    let localStore = localStorage.getItem(this.STORAGE_KEY);
+    let localStore = localStorage.getItem(this.TODO_STORAGE_KEY);
     let parsedTodos = JSON.parse(localStore || "null");
     todos = parsedTodos;
 
     return todos;
+  }
+
+  /////////////////////////////////////////////////
+  
+  static getCategories():Category[]{
+    let categories:Category[] = [];
+    let localStore = localStorage.getItem(this.CATEGORY_STORAGE_KEY);
+    if (localStore) {
+      let parsedTodos= JSON.parse(localStore);
+      categories = parsedTodos;
+      return categories;
+    }
+    return [];
+  }
+
+  static saveCategories(category:Category[]){
+    const categoryList = JSON.stringify(category);
+    localStorage.setItem(this.CATEGORY_STORAGE_KEY, categoryList);
   }
 }

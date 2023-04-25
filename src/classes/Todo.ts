@@ -2,6 +2,7 @@ import { HasFormatter } from "../Interface/HasFormatter.js";
 import { ListTemplate } from "./LIstTemplate.js";
 import { LocalStorageController } from "./LocalStorageController.js";
 import { TodoItem } from "./TodoItem.js";
+import { TodoListTemplate } from "./TodoListTemplate.js";
 
 //TodoItem 클래스를 멤버로 가지고 있고 todo를 등록/수정/삭제하는 역할만 한다
 export class Todo {

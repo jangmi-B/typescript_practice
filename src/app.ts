@@ -4,6 +4,7 @@ import { LocalStorageController } from "./classes/LocalStorageController.js";
 import { HasFormatter } from "./Interface/HasFormatter";
 import { Todo } from "./classes/Todo.js";
 import { TodoItem } from "./classes/TodoItem.js";
+import { TodoListTemplate } from "./classes/TodoListTemplate.js";
 
 // form DOM 객체 가져옴
 const form = document.querySelector(".todo-form") as HTMLFormElement;
@@ -18,6 +19,12 @@ if (local.length == 0) {
   emptyFormat.render();
   localStorage.clear();
 }
+
+// selectbox
+const select = document.querySelector("select") as HTMLSelectElement;
+select.options.length = 0;
+const todoListTemplate = new TodoListTemplate(select);
+todoListTemplate.render();
 
 // 등록,수정,삭제용 객체
 const todo = new Todo();
@@ -34,7 +41,6 @@ dueDate.value = todayStr;
 
 // todo리스트 render()
 local.forEach((element: HasFormatter, index: number) => {
-  // 각각의 format()을 불러오려고 HasFormatter객체형태로 저장
   let temp: HasFormatter = listFormat.makeContents(element);
   listFormat.render(temp, index);
 });
@@ -66,14 +72,9 @@ form.addEventListener("submit", (e: Event) => {
     alert("내용을 입력해주세요");
     return;
   }
-  // 8자리 숫자인지 확인
-  if (!todoItem.isNum(dueDate)) {
-    dueDate.focus();
-    alert("yyyyMMdd 형식의 날짜를 입력해주세요.");
-    return;
-  }
+ 
   // 유효한 날짜인지 확인
-  if (!todoItem.valid(dueDate)) {
+  if (!todoItem.isValid(dueDate)) {
     dueDate.focus();
     return;
   }

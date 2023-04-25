@@ -40,17 +40,20 @@ export class TodoItem implements HasFormatter {
     return content === "" ? true : false;
   }
 
-  // 8자리 숫자가 맞는지 검사
-  isNum(dueDate: HTMLInputElement): boolean {
-    return /^\d{8}$/.test(dueDate.value);
-  }
-
   // 날짜 유효성검사
-  valid(dueDate: HTMLInputElement): boolean {
+  isValid(dueDate: HTMLInputElement): boolean {
     const year = dueDate.value.slice(0, 4);
     const month = dueDate.value.slice(4, 6);
     const day = dueDate.value.slice(6, 8);
     const date = new Date(`${year}-${month}-${day}`);
+    let isNum = /^\d{8}$/.test(dueDate.value);
+
+    // yyyyMMdd형식의 입력인지 확인
+    if(!isNum){
+      dueDate.focus();
+      alert("yyyyMMdd 형식의 날짜를 입력해주세요.");
+      return isNum;
+    }
 
     // 유효한 날짜인지 확인
     // NaN 값은 산술 연산이 정의되지 않은 결과 또는 표현할 수 없는 결과를 도출하면 생성

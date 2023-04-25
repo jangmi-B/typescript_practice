@@ -1,7 +1,7 @@
 import { HasFormatter } from "../Interface/HasFormatter";
 import { LocalStorageController } from "./LocalStorageController.js";
-import { Todo } from "./Todo";
 import { TodoItem } from "./TodoItem.js";
+import { TodoListTemplate } from "./TodoListTemplate.js";
 
 export class ListTemplate {
   constructor(private containner: HTMLUListElement) {}
@@ -48,9 +48,10 @@ export class ListTemplate {
     // 완료되지 않았으면 빨간색으로 표시
     const isFinished = todoItem.isFinished(renderCategory.dueDate);
     h4.append(renderCategory.format());
-    if (!isFinished) {
+    // 완료날짜가 지난 이후 미완료 체크
+    if (!isFinished && item.changeStatus === "on") {
       h4.classList.add("not-finish");
-      h4.append(" (★미완료★)");
+      // h4.append(" (★미완료★)");
     }
 
     // 종료되면 초록 진행중이면 파랑으로 표시하기 위한 클래스 추가
@@ -64,15 +65,22 @@ export class ListTemplate {
     chkbox.addEventListener("change", function () {
       let todoIdx = Number(this.value);
       let todos: HasFormatter[] = LocalStorageController.getItems();
-
+      const isFinished = todoItem.isFinished(todos[todoIdx].dueDate);
       if (h4.classList.contains("complete")) {
         h4.classList.remove("complete");
         h4.classList.add("processing");
+        // 미완료일때 클래스 추가
+        if(!isFinished){
+          h4.classList.add("not-finish");
+        }
         todos[todoIdx].isDone = "false";
         todos[todoIdx].changeStatus = "on";
       } else {
         h4.classList.remove("processing");
         h4.classList.add("complete");
+        if(h4.classList.contains("not-finish")){
+          h4.classList.remove("not-finish");
+        }
         todos[todoIdx].isDone = "true";
         todos[todoIdx].changeStatus = "";
       }
