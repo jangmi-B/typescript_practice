@@ -2,31 +2,36 @@ import { ListTemplate } from "./classes/LIstTemplate.js";
 import { EmptyTemplate } from "./classes/EmptyTemplate.js";
 import { LocalStorageController } from "./classes/LocalStorageController.js";
 import { HasFormatter } from "./Interface/HasFormatter";
+import { Todo } from "./classes/Todo.js";
+import { TodoItem } from "./classes/TodoItem.js";
 
 // form DOM 객체 가져옴
-/*
-    TypeScript는 HTML 문서 객체를 기본적으로 HTMLElement 타입으로 인식합니다.
-    따라서, querySelector 등을 통해 가져온 HTML 문서 객체를 그대로 변수에 할당하면, 
-    해당 객체가 HTMLElement 타입으로 인식되어 HTMLElement에만 정의된 속성과 메서드만 사용할 수 있습니다.
- */
 const form = document.querySelector(".todo-form") as HTMLFormElement;
-const category = document.querySelector("#Category") as HTMLSelectElement;
-const title = document.querySelector("#title") as HTMLInputElement;
-const dueDate = document.querySelector("#dueDate") as HTMLInputElement;
 const todoList = document.querySelector("ul")!;
 // render()를 위한 객체생성
 const listFormat = new ListTemplate(todoList);
 const emptyFormat = new EmptyTemplate(todoList);
 
 // local에 저장된 내용없으면 clear로 비워주기
-let local = LocalStorageController.getTodos(category.value);
+let local = LocalStorageController.getTodos();
 if (local.length == 0) {
   emptyFormat.render();
   localStorage.clear();
 }
 
-// render로 그리기전에 ul자식요소들 지우기
-todoList.innerHTML = "";
+// 등록,수정,삭제용 객체
+const todo = new Todo();
+
+// dueDate 날짜 기본값 설정
+const today = new Date();
+const month = today.getMonth() + 1 < 10 ? true : false;
+const todayStr =
+  String(today.getFullYear()) +
+  (month ? "0" + String(today.getMonth() + 1) : String(today.getMonth() + 1)) +
+  String(today.getDate());
+const dueDate = document.querySelector("#dueDate") as HTMLInputElement;
+dueDate.value = todayStr;
+
 // todo리스트 render()
 local.forEach((element: HasFormatter, index: number) => {
   // 각각의 format()을 불러오려고 HasFormatter객체형태로 저장
@@ -38,33 +43,49 @@ local.forEach((element: HasFormatter, index: number) => {
 form.addEventListener("submit", (e: Event) => {
   e.preventDefault();
 
-  // todo리스트가 없을때 문구 제거
-  let emptySentence = document.querySelector(".empty-sentence");
-  if (emptySentence !== null && local.length == 0) emptySentence.remove();
+  const category = document.querySelector("#Category") as HTMLSelectElement;
+  const title = document.querySelector("#title") as HTMLInputElement;
+  const dueDate = document.querySelector("#dueDate") as HTMLInputElement;
+  let isDone = document.querySelector(
+    'input[name="isDone"]:checked'
+  ) as HTMLInputElement;
+  let changeStatus = isDone.value === "false" ? "on" : "";
+
+  // submit전 검증을 위한 객체 생성
+  const todoItem = new TodoItem(
+    category.value,
+    title.value,
+    dueDate.valueAsNumber,
+    isDone.value,
+    changeStatus
+  );
 
   // form 유효성체크
-  if (title.value == "") {
+  if (todoItem.isEmpty(title.value)) {
     title.focus();
     alert("내용을 입력해주세요");
     return;
   }
   // 8자리 숫자인지 확인
-  const isNum = /^\d{8}$/.test(dueDate.value);
-  if (!isNum) {
+  if (!todoItem.isNum(dueDate)) {
     dueDate.focus();
     alert("yyyyMMdd 형식의 날짜를 입력해주세요.");
     return;
   }
-  // 유효한 날짜 체크
-  if (!valid()) {
+  // 유효한 날짜인지 확인
+  if (!todoItem.valid(dueDate)) {
     dueDate.focus();
-    alert("유효하지 않은 날짜입니다. 다시 입력해주세요");
     return;
   }
 
+  // todo리스트가 없을때 문구 제거
+  let emptySentence = document.querySelector(".empty-sentence");
+  if (emptySentence !== null && local.length == 0) emptySentence.remove();
+
   // 유효성 통과하면 submit()
-  listFormat.submit();
+  todo.submit(todoItem);
   form.reset();
+  dueDate.value = todayStr;
 });
 
 // 삭제이벤트
@@ -75,7 +96,7 @@ rightSide.addEventListener("click", (e) => {
   // 타입이 버튼일때만 삭제 이벤트 실행
   if (clicked.type === "button") {
     const clickedValue = Number(clicked.value);
-    listFormat.delete(clickedValue);
+    todo.delete(clickedValue);
   }
 
   // 삭제이후에 li태그 비어있으면 다시 빈 템플릿 그리기
@@ -83,20 +104,3 @@ rightSide.addEventListener("click", (e) => {
   const todoLength = todoList.children.length;
   if (todoLength === 0) emptyFormat.render();
 });
-
-function valid(): boolean {
-  const year = dueDate.value.slice(0, 4);
-  const month = dueDate.value.slice(4, 6);
-  const day = dueDate.value.slice(6, 8);
-  const date = new Date(`${year}-${month}-${day}`);
-
-  // 유효한 날짜인지 확인
-  // NaN 값은 산술 연산이 정의되지 않은 결과 또는 표현할 수 없는 결과를 도출하면 생성
-  const isValid =
-    !isNaN(date.getTime()) &&
-    date.getFullYear() == Number(year) &&
-    date.getMonth() + 1 == Number(month) &&
-    date.getDate() == Number(day);
-
-  return isValid;
-}

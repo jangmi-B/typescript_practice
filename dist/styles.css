@@ -117,3 +117,7 @@ label {
 .empty-sentence {
   color: grey;
 }
+
+.not-finish {
+  color: red;
+}
