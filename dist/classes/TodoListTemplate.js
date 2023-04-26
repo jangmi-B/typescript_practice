@@ -5,7 +5,6 @@ export class TodoListTemplate {
     }
     render() {
         const categories = LocalStorageController.getCategories();
-        console.log(categories);
         categories.forEach((categories) => {
             const option = document.createElement("option");
             option.value = categories.categoryItem;

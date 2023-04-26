@@ -18,33 +18,20 @@ ul {
   list-style: none;
 }
 
-input[type="checkbox"] {
-  margin-right: 10px;
-}
-
 div.field {
   margin-bottom: 25px;
 }
 .todo-form,
 .container {
   height: 85%;
+  display: flex;
+  justify-content: center;
 }
 
 .field {
   margin-bottom: 10px;
 }
 
-#addBtn {
-  width: 100%;
-  height: 40px;
-  border: none;
-  font-size: large;
-  font-weight: 600;
-}
-
-#addBtn:hover {
-  background-color: #cedff6;
-}
 
 .deleteBtn {
   width: 30px;
@@ -64,35 +51,11 @@ div.field {
 label {
   font-size: larger;
 }
-.left-side {
-  /* float: left; */
-  margin: auto;
-  width: 30%;
-  height: 90%;
-  padding: 2%;
-  border: 3px solid;
-  border-radius: 10px;
-  background-color: #545454;
-  color: white;
-}
 
-#title {
-  width: 80%;
-  height: 30px;
-}
-
-#Category {
-  width: 75%;
-  height: 30px;
-}
-
-#dueDate {
-  width: 72%;
-  height: 28px;
-}
 
 .right-side {
   /* float: right; */
+
   width: 60%;
   height: 90%;
   padding: 2%;

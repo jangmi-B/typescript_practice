@@ -9,8 +9,9 @@ export class Todo {
   todoItem: TodoItem[] = [];
 
   // submit 함수
-  submit(todoItem: TodoItem) {
+  save(todoItem: TodoItem) {
     const todoList = document.querySelector("ul")!;
+    console.log(todoList);
     const listFormat = new ListTemplate(todoList);
     const category = todoItem.category;
     const title = todoItem.title;
@@ -42,12 +43,13 @@ export class Todo {
 
     // todo render
     // render로 그리기전에 ul자식요소들 지우기
-    todoList.innerHTML = "";
-    todos.forEach((element: HasFormatter, index: number) => {
-      // 각각의 format()을 불러오려고 HasFormatter객체형태로 저장
-      let temp: HasFormatter = listFormat.makeContents(element);
-      listFormat.render(temp, index);
-    });
+    // console.log(todoList);
+    // todoList.innerHTML = "";
+    // todos.forEach((element: HasFormatter, index: number) => {
+    //   // 각각의 format()을 불러오려고 HasFormatter객체형태로 저장
+    //   let temp: HasFormatter = listFormat.makeContents(element);
+    //   listFormat.render(temp, index);
+    // });
   }
 
   //  delete 함수

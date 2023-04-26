@@ -29,12 +29,11 @@ export class LocalStorageController {
     return todos;
   }
 
-  /////////////////////////////////////////////////
+  ////////////////category///////////////////
 
   static getCategories(): Category[] {
     let categories: Category[] = [];
     let localStore = localStorage.getItem(this.CATEGORY_STORAGE_KEY);
-    console.log(localStore);
     if (localStore) {
       let parsedTodos = JSON.parse(localStore);
       categories = parsedTodos;
@@ -45,7 +44,6 @@ export class LocalStorageController {
 
   static saveCategories(category: Category[]) {
     const categoryList = JSON.stringify(category);
-    console.log(category);
     localStorage.setItem(this.CATEGORY_STORAGE_KEY, categoryList);
   }
 }

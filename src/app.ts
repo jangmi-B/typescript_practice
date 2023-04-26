@@ -5,6 +5,7 @@ import { HasFormatter } from "./Interface/HasFormatter";
 import { Todo } from "./classes/Todo.js";
 import { TodoItem } from "./classes/TodoItem.js";
 import { TodoListTemplate } from "./classes/TodoListTemplate.js";
+import { Category } from "./classes/Category";
 
 // form DOM 객체 가져옴
 const form = document.querySelector(".todo-form") as HTMLFormElement;
@@ -12,15 +13,14 @@ const todoList = document.querySelector("ul")!;
 // render()를 위한 객체생성
 const listFormat = new ListTemplate(todoList);
 const emptyFormat = new EmptyTemplate(todoList);
-
-// local에 저장된 내용없으면 clear로 비워주기
-let local = LocalStorageController.getTodos();
-if (local.length == 0) {
+let localTodos:HasFormatter[] = LocalStorageController.getTodos();
+let localCategories:Category[] = LocalStorageController.getCategories();
+if(localCategories.length === 0){
+  localStorage.removeItem("categories");
   emptyFormat.render();
-  localStorage.removeItem("todos");
 }
 
-// selectbox
+// 카테고리 생성
 const select = document.querySelector("select") as HTMLSelectElement;
 select.options.length = 0;
 const todoListTemplate = new TodoListTemplate(select);
@@ -38,12 +38,6 @@ const todayStr =
   String(today.getDate());
 const dueDate = document.querySelector("#dueDate") as HTMLInputElement;
 dueDate.value = todayStr;
-
-// todo리스트 render()
-local.forEach((element: HasFormatter, index: number) => {
-  let temp: HasFormatter = listFormat.makeContents(element);
-  listFormat.render(temp, index);
-});
 
 // submit 이벤트 발생처리 및 랜더링
 form.addEventListener("submit", (e: Event) => {
@@ -81,27 +75,11 @@ form.addEventListener("submit", (e: Event) => {
 
   // todo리스트가 없을때 문구 제거
   let emptySentence = document.querySelector(".empty-sentence");
-  if (emptySentence !== null && local.length == 0) emptySentence.remove();
+  if (emptySentence !== null && localTodos.length == 0) emptySentence.remove();
 
   // 유효성 통과하면 submit()
-  todo.submit(todoItem);
+  todo.save(todoItem);
   form.reset();
   dueDate.value = todayStr;
-});
-
-// 삭제이벤트
-let rightSide = document.querySelector(".right-side")!;
-rightSide.addEventListener("click", (e) => {
-  const clicked = e.target as HTMLButtonElement;
-
-  // 타입이 버튼일때만 삭제 이벤트 실행
-  if (clicked.type === "button") {
-    const clickedValue = Number(clicked.value);
-    todo.delete(clickedValue);
-  }
-
-  // 삭제이후에 li태그 비어있으면 다시 빈 템플릿 그리기
-  const todoList = document.querySelector("ul")!;
-  const todoLength = todoList.children.length;
-  if (todoLength === 0) emptyFormat.render();
+  location.href="/dist/viewTodoList.html";
 });

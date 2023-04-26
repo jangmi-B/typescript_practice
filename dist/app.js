@@ -10,13 +10,13 @@ const todoList = document.querySelector("ul");
 // render()를 위한 객체생성
 const listFormat = new ListTemplate(todoList);
 const emptyFormat = new EmptyTemplate(todoList);
-// local에 저장된 내용없으면 clear로 비워주기
-let local = LocalStorageController.getTodos();
-if (local.length == 0) {
+let localTodos = LocalStorageController.getTodos();
+let localCategories = LocalStorageController.getCategories();
+if (localCategories.length === 0) {
+    localStorage.removeItem("categories");
     emptyFormat.render();
-    localStorage.removeItem("todos");
 }
-// selectbox
+// 카테고리 생성
 const select = document.querySelector("select");
 select.options.length = 0;
 const todoListTemplate = new TodoListTemplate(select);
@@ -31,11 +31,6 @@ const todayStr = String(today.getFullYear()) +
     String(today.getDate());
 const dueDate = document.querySelector("#dueDate");
 dueDate.value = todayStr;
-// todo리스트 render()
-local.forEach((element, index) => {
-    let temp = listFormat.makeContents(element);
-    listFormat.render(temp, index);
-});
 // submit 이벤트 발생처리 및 랜더링
 form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -59,25 +54,11 @@ form.addEventListener("submit", (e) => {
     }
     // todo리스트가 없을때 문구 제거
     let emptySentence = document.querySelector(".empty-sentence");
-    if (emptySentence !== null && local.length == 0)
+    if (emptySentence !== null && localTodos.length == 0)
         emptySentence.remove();
     // 유효성 통과하면 submit()
-    todo.submit(todoItem);
+    todo.save(todoItem);
     form.reset();
     dueDate.value = todayStr;
-});
-// 삭제이벤트
-let rightSide = document.querySelector(".right-side");
-rightSide.addEventListener("click", (e) => {
-    const clicked = e.target;
-    // 타입이 버튼일때만 삭제 이벤트 실행
-    if (clicked.type === "button") {
-        const clickedValue = Number(clicked.value);
-        todo.delete(clickedValue);
-    }
-    // 삭제이후에 li태그 비어있으면 다시 빈 템플릿 그리기
-    const todoList = document.querySelector("ul");
-    const todoLength = todoList.children.length;
-    if (todoLength === 0)
-        emptyFormat.render();
+    location.href = "/dist/viewTodoList.html";
 });

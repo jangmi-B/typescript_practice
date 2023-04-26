@@ -1,7 +1,6 @@
 import { HasFormatter } from "../Interface/HasFormatter";
 import { LocalStorageController } from "./LocalStorageController.js";
 import { TodoItem } from "./TodoItem.js";
-import { TodoListTemplate } from "./TodoListTemplate.js";
 
 export class ListTemplate {
   constructor(private containner: HTMLUListElement) {}

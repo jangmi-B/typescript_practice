@@ -3,7 +3,6 @@ import { LocalStorageController } from "./classes/LocalStorageController.js";
 import { Category } from "./classes/Category.js";
 
 const form = document.querySelector(".category-form") as HTMLFormElement;
-const addBtn = document.querySelector("button") as HTMLButtonElement;
 const categoryList = document.querySelector("ul")!;
 const categoryFormat = new CategoryListTemplate(categoryList);
 const category = new Category();
