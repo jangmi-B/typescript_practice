@@ -3,9 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TODO LIST</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="enterTodoList.css" />
   </head>
   <body>
     <div class="subject">
@@ -20,7 +20,7 @@
             <input type="text" id="title" />
           </div>
           <div class="field">
-            <label id="categoryLabel">Category:</label>
+            <label id="categoryLabel">Category :</label>
             <select id="Category"></select>
           </div>
           <div class="field">
@@ -40,15 +40,14 @@
             <input type="radio" name="isDone" id="true" value="true" />
             <label for="true">YES</label>
           </div>
-          <button id="addBtn">ADD LIST</button>
+          <div class="field">
+            <button id="addBtn">ADD LIST</button>
+            <button id="listBtn" type="button"><a href="/dist/viewTodoList.html">GO LIST</a></button>
+            <button id="categoryBtn" type="button"><a href="/dist/category.html">MAKE CATEGORY</a></button>
+          </div>
         </form>
       </div>
-      <!-- <div class="right-side">
-        <h2>Show What you have to do!</h2>
-        <ul class="todo-list"></ul>
-      </div> -->
     </div>
-
-    <script type="module" src="app.js"></script>
+    <script type="module" src="enterTodoApp.js"></script>
   </body>
 </html>

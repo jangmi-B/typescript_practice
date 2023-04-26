@@ -1,42 +1,47 @@
-import { HasFormatter } from "../Interface/HasFormatter";
+import { HasFormatter } from "../../Interface/HasFormatter.js";
 import { CategoryListTemplate } from "./CategoryListTemplate.js";
-import { LocalStorageController } from "./LocalStorageController.js";
+import { LocalStorageController } from "../LocalStorageController.js";
 
 export class Category{
     
     categoryItem:string = "";
     
+    // 카테고리 저장
     categorySave(category: Category){
         const categoryList = document.querySelector("ul")!;
         const categoryFormat = new CategoryListTemplate(categoryList);
 
+        // 이미 작성한 카테고리인지 체크
         if(this.existsCategory(category.categoryItem)){
             alert("이미 존재하는 카테고리 입니다.");
             return;
         }
 
+        // 로컬스토리지에 저장
         let localCategories: Category[] = 
             LocalStorageController.getCategories() != null 
             ? LocalStorageController.getCategories() 
             : [];
-
         localCategories.push(category);
         LocalStorageController.saveCategories(localCategories);  
         localCategories = LocalStorageController.getCategories();
 
+        // 기존내용 지우고 새롭게 랜더링
         categoryList.innerHTML = "";
         localCategories.forEach((element: Category, index: number) => {
             categoryFormat.render(element, index);
         });
     }
 
+    // 카테고리 삭제
     categoryDelete(selectedValue: number){
         let categories: Category[] = LocalStorageController.getCategories();
         const categoryList = document.querySelector("ul")!;
         let checkCategory = categories[selectedValue].categoryItem;
-        const isExist = this.existsTodoList(checkCategory);
+        // 투두리스트에서 사용중인지 체크
+        const isContain = this.existsTodoList(checkCategory);
 
-        if(!isExist){
+        if(!isContain){
             categoryList.children[selectedValue].remove();
             categories.splice(selectedValue,1);
             LocalStorageController.saveCategories(categories);
@@ -46,7 +51,6 @@ export class Category{
             return;
         }
     }
-
     changeIndex(idx: number) {
         const delBtn = document.querySelectorAll(".deleteBtn");
         delBtn.forEach((button) => {
@@ -57,7 +61,7 @@ export class Category{
         });
       }
 
-    // 삭제할 때 이미 존재하는 카테고리 체크
+    // 삭제할 때 투두리스트에서 사용중인 카테고리 체크
     existsTodoList(category: string): boolean{
         let isExists = false;
         let usedCategories: HasFormatter[] = LocalStorageController.getTodos();
@@ -67,10 +71,10 @@ export class Category{
                 return;
             }
         });
-
         return isExists;
     }
 
+    // 이미 작성한 카테고리인지 체크
     existsCategory(category: string):boolean{
         let isExists = false;
         let usedCategories: Category[] = LocalStorageController.getCategories();
@@ -80,7 +84,6 @@ export class Category{
                 return;
             }
         });
-
         return isExists;
     }
 }

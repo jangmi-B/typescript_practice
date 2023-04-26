@@ -1,22 +1,9 @@
-import { HasFormatter } from "../Interface/HasFormatter";
-import { LocalStorageController } from "./LocalStorageController.js";
+import { HasFormatter } from "../../Interface/HasFormatter.js";
+import { LocalStorageController } from "../LocalStorageController.js";
 import { TodoItem } from "./TodoItem.js";
 
 export class ListTemplate {
   constructor(private containner: HTMLUListElement) {}
-
-  // 객체타입으로 변환해주는 함수
-  makeContents(item: HasFormatter): HasFormatter {
-    let contents: HasFormatter;
-    contents = new TodoItem(
-      item.category,
-      item.title,
-      item.dueDate,
-      item.isDone,
-      item.changeStatus
-    );
-    return contents;
-  }
 
   // 투두리스트 랜더링
   render(item: HasFormatter, index: number) {
@@ -36,17 +23,17 @@ export class ListTemplate {
 
     //h4 추가
     const h4 = document.createElement("h4");
-    const renderCategory = this.makeContents(item);
+    // const renderCategory = this.makeContents(item);
     const todoItem = new TodoItem(
-      renderCategory.category,
-      renderCategory.title,
-      renderCategory.dueDate,
-      renderCategory.isDone,
-      renderCategory.changeStatus
+      item.category,
+      item.title,
+      item.dueDate,
+      item.isDone,
+      item.changeStatus
     );
     // 완료되지 않았으면 빨간색으로 표시
-    const isFinished = todoItem.isFinished(renderCategory.dueDate);
-    h4.append(renderCategory.format());
+    const isFinished = todoItem.isFinished(todoItem.dueDate);
+    h4.append(todoItem.format());
     // 완료날짜가 지난 이후 미완료 체크
     if (!isFinished && item.changeStatus === "on") {
       h4.classList.add("not-finish");

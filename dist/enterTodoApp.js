@@ -38,10 +38,15 @@ form.addEventListener("submit", (e) => {
     let changeStatus = isDone.value === "false" ? "on" : "";
     // submit전 검증을 위한 객체 생성
     const todoItem = new TodoItem(category.value, title.value, dueDate.valueAsNumber, isDone.value, changeStatus);
-    // form 유효성체크
+    // 내용체크
     if (todoItem.isEmpty(title.value)) {
         title.focus();
         alert("내용을 입력해주세요");
+        return;
+    }
+    // 카테고리 체크
+    if (todoItem.isEmpty(category.value)) {
+        alert("카테고리 등록이 필요합니다");
         return;
     }
     // 유효한 날짜인지 확인

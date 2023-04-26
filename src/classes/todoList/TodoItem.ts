@@ -1,4 +1,4 @@
-import { HasFormatter } from "../Interface/HasFormatter";
+import { HasFormatter } from "../../Interface/HasFormatter";
 
 // Todo 등록하고 검증
 export class TodoItem implements HasFormatter {
@@ -33,8 +33,6 @@ export class TodoItem implements HasFormatter {
     return isFinished;
   }
 
-  // 카테고리 검증
-
   // 내용 비어있는지 검증
   isEmpty(content: string): boolean {
     return content === "" ? true : false;
@@ -48,7 +46,7 @@ export class TodoItem implements HasFormatter {
     const date = new Date(`${year}-${month}-${day}`);
     let isNum = /^\d{8}$/.test(dueDate.value);
 
-    // yyyyMMdd형식의 입력인지 확인
+    // yyyyMMdd형식의 8자리 입력인지 확인
     if(!isNum){
       dueDate.focus();
       alert("yyyyMMdd 형식의 날짜를 입력해주세요.");
@@ -56,7 +54,6 @@ export class TodoItem implements HasFormatter {
     }
 
     // 유효한 날짜인지 확인
-    // NaN 값은 산술 연산이 정의되지 않은 결과 또는 표현할 수 없는 결과를 도출하면 생성
     let isValid =
       !isNaN(date.getTime()) &&
       date.getFullYear() == Number(year) &&

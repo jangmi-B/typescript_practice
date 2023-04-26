@@ -6,6 +6,12 @@ h2 {
     margin-bottom: 30px;
 }
 
+a{
+    text-decoration: none;
+    color: black;
+    font-weight: 700;
+}
+
 .category_container{
     display: flex;
     justify-content: center;

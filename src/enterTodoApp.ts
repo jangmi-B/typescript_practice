@@ -1,17 +1,14 @@
-import { ListTemplate } from "./classes/LIstTemplate.js";
 import { EmptyTemplate } from "./classes/EmptyTemplate.js";
 import { LocalStorageController } from "./classes/LocalStorageController.js";
-import { HasFormatter } from "./Interface/HasFormatter";
-import { Todo } from "./classes/Todo.js";
-import { TodoItem } from "./classes/TodoItem.js";
-import { TodoListTemplate } from "./classes/TodoListTemplate.js";
-import { Category } from "./classes/Category";
+import { HasFormatter } from "./Interface/HasFormatter.js";
+import { Todo } from "./classes/todoList/Todo.js";
+import { TodoItem } from "./classes/todoList/TodoItem.js";
+import { TodoListTemplate } from "./classes/todoList/TodoListTemplate.js";
+import { Category } from "./classes/category/Category.js";
 
 // form DOM 객체 가져옴
 const form = document.querySelector(".todo-form") as HTMLFormElement;
 const todoList = document.querySelector("ul")!;
-// render()를 위한 객체생성
-const listFormat = new ListTemplate(todoList);
 const emptyFormat = new EmptyTemplate(todoList);
 let localTodos:HasFormatter[] = LocalStorageController.getTodos();
 let localCategories:Category[] = LocalStorageController.getCategories();
@@ -19,15 +16,14 @@ if(localCategories.length === 0){
   localStorage.removeItem("categories");
   emptyFormat.render();
 }
+// 등록,수정,삭제용 객체
+const todo = new Todo();
 
 // 카테고리 생성
 const select = document.querySelector("select") as HTMLSelectElement;
 select.options.length = 0;
 const todoListTemplate = new TodoListTemplate(select);
 todoListTemplate.render();
-
-// 등록,수정,삭제용 객체
-const todo = new Todo();
 
 // dueDate 날짜 기본값 설정
 const today = new Date();
@@ -60,10 +56,16 @@ form.addEventListener("submit", (e: Event) => {
     changeStatus
   );
 
-  // form 유효성체크
+  // 내용체크
   if (todoItem.isEmpty(title.value)) {
     title.focus();
     alert("내용을 입력해주세요");
+    return;
+  }
+
+  // 카테고리 체크
+  if(todoItem.isEmpty(category.value)){
+    alert("카테고리 등록이 필요합니다");
     return;
   }
 

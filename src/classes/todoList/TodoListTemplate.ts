@@ -1,5 +1,5 @@
-import { LocalStorageController } from "./LocalStorageController.js";
-import { Category } from "./Category.js";
+import { LocalStorageController } from "../LocalStorageController.js";
+import { Category } from "../category/Category.js";
 
 export class TodoListTemplate {
   constructor(private containner: HTMLSelectElement) {}

@@ -1,14 +1,14 @@
-import { ListTemplate } from "./classes/LIstTemplate.js";
+import { ListTemplate } from "./classes/todoList/LIstTemplate.js";
 import { EmptyTemplate } from "./classes/EmptyTemplate.js";
 import { LocalStorageController } from "./classes/LocalStorageController.js";
-import { HasFormatter } from "./Interface/HasFormatter";
-import { Todo } from "./classes/Todo.js";
-import { TodoItem } from "./classes/TodoItem.js";
-import { TodoListTemplate } from "./classes/TodoListTemplate.js";
+import { HasFormatter } from "./Interface/HasFormatter.js";
+import { Todo } from "./classes/todoList/Todo.js";
+import { TodoItem } from "./classes/todoList/TodoItem.js";
 
 // form DOM 객체 가져옴
 const form = document.querySelector(".todo-form") as HTMLFormElement;
 const todoList = document.querySelector("ul")!;
+
 // render()를 위한 객체생성
 const listFormat = new ListTemplate(todoList);
 const emptyFormat = new EmptyTemplate(todoList);
@@ -25,7 +25,7 @@ const todo = new Todo();
 
 // todo리스트 render()
 local.forEach((element: HasFormatter, index: number) => {
-  let temp: HasFormatter = listFormat.makeContents(element);
+  let temp: HasFormatter = makeContents(element);
   listFormat.render(temp, index);
 });
 
@@ -45,3 +45,16 @@ rightSide.addEventListener("click", (e) => {
   const todoLength = todoList.children.length;
   if (todoLength === 0) emptyFormat.render();
 });
+
+// 객체타입으로 변환해주는 함수
+function makeContents(item: HasFormatter): HasFormatter {
+  let contents: HasFormatter;
+  contents = new TodoItem(
+    item.category,
+    item.title,
+    item.dueDate,
+    item.isDone,
+    item.changeStatus
+  );
+  return contents;
+}

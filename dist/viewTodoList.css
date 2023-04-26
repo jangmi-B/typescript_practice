@@ -6,6 +6,11 @@ body {
 .subject {
   margin-bottom: 20px;
 }
+a{
+  text-decoration: none;
+  color: black;
+  font-weight: 700;
+}
 
 h2 {
   font-weight: 600;

@@ -4,7 +4,6 @@ export class CategoryListTemplate {
   constructor(private containner: HTMLUListElement) {}
 
   render(item: Category, index: number) {
-    // li추가
     const li = document.createElement("li");
     const h4 = document.createElement("h4");
     h4.append(item.categoryItem);

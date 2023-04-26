@@ -1,4 +1,4 @@
-import { Category } from "./Category.js";
+import { Category } from "./category/Category";
 import { LocalStorageController } from "./LocalStorageController.js";
 
 export class EmptyTemplate {
@@ -8,7 +8,7 @@ export class EmptyTemplate {
     const url = window.location.href;
     const curLocation = url.substring(url.lastIndexOf("/")+1,url.length);
     const categoryCnt:Category[] = LocalStorageController.getCategories();
-    console.log(curLocation);
+
     if(curLocation === "enterTodoList.html" && categoryCnt.length === 0){
       const selectBox = document.querySelector("#Category") as HTMLSelectElement;
       selectBox.classList.add("emptyStatus");

@@ -11,7 +11,7 @@ h2 {
   font-weight: 600;
   text-align: center;
   margin-top: 10px;
-  margin-bottom: 30px;
+  margin-bottom: 15%;
 }
 
 ul {
@@ -23,11 +23,12 @@ input[type="checkbox"] {
 }
 
 div.field {
-  margin-bottom: 25px;
+  margin-bottom: 30px;
 }
+
 .todo-form,
 .container {
-  height: 85%;
+  height: 70%;
 }
 
 .field {
@@ -40,10 +41,39 @@ div.field {
   border: none;
   font-size: large;
   font-weight: 600;
+  margin-bottom: 10px;
+}
+#listBtn{
+  width: 100%;
+  height: 40px;
+  border: none;
+  font-size: large;
+  font-weight: 600;
+  margin-bottom: 10px;
+  background-color: aquamarine;
 }
 
+#categoryBtn {
+  width: 100%;
+  height: 40px;
+  border: none;
+  font-size: large;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+#categoryBtn:hover,
 #addBtn:hover {
   background-color: #cedff6;
+}
+
+#listBtn:hover{
+  background-color: lightgrey;
+}
+
+a{
+  text-decoration: none;
+  color: black;
 }
 
 .deleteBtn {
@@ -77,17 +107,17 @@ label {
 }
 
 #title {
-  width: 80%;
+  width: 85%;
   height: 30px;
 }
 
 #Category {
-  width: 75%;
+  width: 78%;
   height: 30px;
 }
 
 #dueDate {
-  width: 72%;
+  width: 76%;
   height: 28px;
 }
 

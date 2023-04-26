@@ -1,14 +1,13 @@
-import { CategoryListTemplate } from "./classes/CategoryListTemplate.js";
+import { CategoryListTemplate } from "./classes/category/CategoryListTemplate.js";
 import { LocalStorageController } from "./classes/LocalStorageController.js";
-import { Category } from "./classes/Category.js";
+import { Category } from "./classes/category/Category.js";
 const form = document.querySelector(".category-form");
 const categoryList = document.querySelector("ul");
 const categoryFormat = new CategoryListTemplate(categoryList);
 const category = new Category();
 let local = LocalStorageController.getCategories();
 if (local.length == 0) {
-    //   emptyFormat.render();
-    localStorage.clear();
+    localStorage.removeItem("categories");
 }
 // todo리스트 render()
 local.forEach((element, index) => {

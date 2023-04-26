@@ -1,7 +1,8 @@
-import { ListTemplate } from "./classes/LIstTemplate.js";
+import { ListTemplate } from "./classes/todoList/LIstTemplate.js";
 import { EmptyTemplate } from "./classes/EmptyTemplate.js";
 import { LocalStorageController } from "./classes/LocalStorageController.js";
-import { Todo } from "./classes/Todo.js";
+import { Todo } from "./classes/todoList/Todo.js";
+import { TodoItem } from "./classes/todoList/TodoItem.js";
 // form DOM 객체 가져옴
 const form = document.querySelector(".todo-form");
 const todoList = document.querySelector("ul");
@@ -18,7 +19,7 @@ if (local.length == 0) {
 const todo = new Todo();
 // todo리스트 render()
 local.forEach((element, index) => {
-    let temp = listFormat.makeContents(element);
+    let temp = makeContents(element);
     listFormat.render(temp, index);
 });
 // 삭제이벤트
@@ -36,3 +37,9 @@ rightSide.addEventListener("click", (e) => {
     if (todoLength === 0)
         emptyFormat.render();
 });
+// 객체타입으로 변환해주는 함수
+function makeContents(item) {
+    let contents;
+    contents = new TodoItem(item.category, item.title, item.dueDate, item.isDone, item.changeStatus);
+    return contents;
+}

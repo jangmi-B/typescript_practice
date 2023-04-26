@@ -1,16 +1,16 @@
-import { CategoryListTemplate } from "./classes/CategoryListTemplate.js";
+import { CategoryListTemplate } from "./classes/category/CategoryListTemplate.js";
 import { LocalStorageController } from "./classes/LocalStorageController.js";
-import { Category } from "./classes/Category.js";
+import { Category } from "./classes/category/Category.js";
 
 const form = document.querySelector(".category-form") as HTMLFormElement;
 const categoryList = document.querySelector("ul")!;
 const categoryFormat = new CategoryListTemplate(categoryList);
 const category = new Category();
 
+
 let local = LocalStorageController.getCategories();
 if (local.length == 0) {
-  //   emptyFormat.render();
-  localStorage.clear();
+  localStorage.removeItem("categories");
 }
 
 // todo리스트 render()
@@ -22,6 +22,7 @@ form.addEventListener("submit", (e: Event) => {
   e.preventDefault();
 
   const categoryInput = document.querySelector("#category") as HTMLInputElement;
+
   // 입력값이 있을때만
   if (categoryInput.value !== "") {
     category.categoryItem = categoryInput.value;
