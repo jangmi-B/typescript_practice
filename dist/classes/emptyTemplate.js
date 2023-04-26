@@ -7,7 +7,7 @@ export class EmptyTemplate {
         const url = window.location.href;
         const curLocation = url.substring(url.lastIndexOf("/") + 1, url.length);
         const categoryCnt = LocalStorageController.getCategories();
-        if (curLocation === "enterTodoList.html" && categoryCnt.length === 0) {
+        if (curLocation === "enterTodoList.html") {
             const selectBox = document.querySelector("#Category");
             selectBox.classList.add("emptyStatus");
             const categoryLabel = document.querySelector("#categoryLabel");

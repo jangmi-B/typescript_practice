@@ -10,9 +10,9 @@ import { Category } from "./classes/category/Category.js";
 const form = document.querySelector(".todo-form") as HTMLFormElement;
 const todoList = document.querySelector("ul")!;
 const emptyFormat = new EmptyTemplate(todoList);
-let localTodos:HasFormatter[] = LocalStorageController.getTodos();
-let localCategories:Category[] = LocalStorageController.getCategories();
-if(localCategories.length === 0){
+let localTodos: HasFormatter[] = LocalStorageController.getTodos();
+let localCategories: Category[] = LocalStorageController.getCategories();
+if (localCategories.length === 0) {
   localStorage.removeItem("categories");
   emptyFormat.render();
 }
@@ -64,7 +64,7 @@ form.addEventListener("submit", (e: Event) => {
   }
 
   // 카테고리 체크
-  if(todoItem.isEmpty(category.value)){
+  if (todoItem.isEmpty(category.value)) {
     alert("카테고리 등록이 필요합니다");
     return;
   }
@@ -83,5 +83,5 @@ form.addEventListener("submit", (e: Event) => {
   todo.save(todoItem);
   form.reset();
   dueDate.value = todayStr;
-  location.href="/dist/viewTodoList.html";
+  location.href = "/dist/viewTodoList.html";
 });

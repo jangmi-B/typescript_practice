@@ -28,7 +28,7 @@ div.field {
 
 .todo-form,
 .container {
-  height: 70%;
+  height: 85%;
 }
 
 .field {
@@ -43,7 +43,7 @@ div.field {
   font-weight: 600;
   margin-bottom: 10px;
 }
-#listBtn{
+#listBtn {
   width: 100%;
   height: 40px;
   border: none;
@@ -67,11 +67,11 @@ div.field {
   background-color: #cedff6;
 }
 
-#listBtn:hover{
+#listBtn:hover {
   background-color: lightgrey;
 }
 
-a{
+a {
   text-decoration: none;
   color: black;
 }
@@ -107,17 +107,17 @@ label {
 }
 
 #title {
-  width: 85%;
+  width: 83%;
   height: 30px;
 }
 
 #Category {
-  width: 78%;
+  width: 76%;
   height: 30px;
 }
 
 #dueDate {
-  width: 76%;
+  width: 73%;
   height: 28px;
 }
 
@@ -154,17 +154,17 @@ label {
   color: red;
 }
 
-.emptyStatus{
+.emptyStatus {
   display: none;
 }
 
-.empty-category{
+.empty-category {
   color: white;
   font-size: medium;
   margin-left: 10px;
   text-decoration: none;
 }
 
-.empty-category:hover{
+.empty-category:hover {
   color: aquamarine;
 }

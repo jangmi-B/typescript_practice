@@ -5,11 +5,13 @@ const form = document.querySelector(".category-form");
 const categoryList = document.querySelector("ul");
 const categoryFormat = new CategoryListTemplate(categoryList);
 const category = new Category();
+// 로컬스토리지 클리어
 let local = LocalStorageController.getCategories();
+// 빼기
 if (local.length == 0) {
     localStorage.removeItem("categories");
 }
-// todo리스트 render()
+// 카테고리 render()
 local.forEach((element, index) => {
     categoryFormat.render(element, index);
 });

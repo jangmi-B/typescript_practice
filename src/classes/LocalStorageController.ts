@@ -3,10 +3,17 @@ import { Category } from "./category/Category";
 import { STORENAME } from "./StoreName.js";
 
 export class LocalStorageController {
+  ////////////////todo///////////////////
+  // datoTodos = {};
+  // dataCategories = {};
+
+  // constructor() {
+  //   // localstorage -> datoTodos
+  //   // localstorage -> dataCategories
+  // }
 
   static getTodos(): HasFormatter[] {
     const localStore = localStorage.getItem(STORENAME.TODO_STORAGE_KEY);
-
     if (localStore) {
       let todos: HasFormatter[] = this.getItems();
       return todos;
@@ -40,6 +47,10 @@ export class LocalStorageController {
     }
     return [];
   }
+
+  // appendCategory(category) {
+  //   this.datoTodos.push(category)
+  // }
 
   static saveCategories(category: Category[]) {
     const categoryList = JSON.stringify(category);

@@ -1,5 +1,12 @@
 import { STORENAME } from "./StoreName.js";
 export class LocalStorageController {
+    ////////////////todo///////////////////
+    // datoTodos = {};
+    // dataCategories = {};
+    // constructor() {
+    //   // localstorage -> datoTodos
+    //   // localstorage -> dataCategories
+    // }
     static getTodos() {
         const localStore = localStorage.getItem(STORENAME.TODO_STORAGE_KEY);
         if (localStore) {
@@ -30,6 +37,9 @@ export class LocalStorageController {
         }
         return [];
     }
+    // appendCategory(category) {
+    //   this.datoTodos.push(category)
+    // }
     static saveCategories(category) {
         const categoryList = JSON.stringify(category);
         localStorage.setItem(STORENAME.CATEGORY_STORAGE_KEY, categoryList);
