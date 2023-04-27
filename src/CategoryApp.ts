@@ -4,17 +4,17 @@ import { Category } from "./classes/category/Category.js";
 import { STORENAME } from "./classes/StoreName.js";
 
 const form = document.querySelector(".category-form") as HTMLFormElement;
-const categoryList = document.querySelector("ul")!;
-const categoryFormat = new CategoryListTemplate(categoryList);
+const categoryListUl = document.querySelector("ul")!;
+const categoryListTemplate = new CategoryListTemplate(categoryListUl);
 const category = new Category();
-const store = new LocalStorageController();
-const local = store.getItem<Category>(STORENAME.CATEGORY_STORAGE_KEY);
+const store = LocalStorageController.getItem<Category>(STORENAME.CATEGORY_STORAGE_KEY);
 
 // 카테고리 render()
-local.forEach((element: Category, index: number) => {
-  categoryFormat.render(element, index);
+store.forEach((element: Category, index: number) => {
+  categoryListTemplate.render(element, index);
 });
 
+// 등록
 form.addEventListener("submit", (e: Event) => {
   e.preventDefault();
 
@@ -28,10 +28,12 @@ form.addEventListener("submit", (e: Event) => {
   }
 });
 
+// 삭제
 let ulList = document.querySelector(".ul-list")!;
 ulList.addEventListener("click", (e) => {
   const selected = e.target as HTMLButtonElement;
   const selectedValue = Number(selected.value);
+
   if(confirm("카테고리를 삭제하시겠습니까?")){
     category.categoryDelete(selectedValue);
   }

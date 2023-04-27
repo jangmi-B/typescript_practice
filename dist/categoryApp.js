@@ -3,15 +3,15 @@ import { LocalStorageController } from "./classes/LocalStorageController.js";
 import { Category } from "./classes/category/Category.js";
 import { STORENAME } from "./classes/StoreName.js";
 const form = document.querySelector(".category-form");
-const categoryList = document.querySelector("ul");
-const categoryFormat = new CategoryListTemplate(categoryList);
+const categoryListUl = document.querySelector("ul");
+const categoryListTemplate = new CategoryListTemplate(categoryListUl);
 const category = new Category();
-const store = new LocalStorageController();
-const local = store.getItem(STORENAME.CATEGORY_STORAGE_KEY);
+const store = LocalStorageController.getItem(STORENAME.CATEGORY_STORAGE_KEY);
 // 카테고리 render()
-local.forEach((element, index) => {
-    categoryFormat.render(element, index);
+store.forEach((element, index) => {
+    categoryListTemplate.render(element, index);
 });
+// 등록
 form.addEventListener("submit", (e) => {
     e.preventDefault();
     const categoryInput = document.querySelector("#category");
@@ -23,6 +23,7 @@ form.addEventListener("submit", (e) => {
         categoryInput.value = "";
     }
 });
+// 삭제
 let ulList = document.querySelector(".ul-list");
 ulList.addEventListener("click", (e) => {
     const selected = e.target;

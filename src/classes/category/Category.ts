@@ -15,11 +15,9 @@ export class Category {
       return;
     }
     // 로컬스토리지 생성
-    const store = new LocalStorageController;
-    const categoryStorage: Category[] = store.getItem<Category>(STORENAME.CATEGORY_STORAGE_KEY);
+    const categoryStorage: Category[] = LocalStorageController.getItem<Category>(STORENAME.CATEGORY_STORAGE_KEY);
     categoryStorage.push(category);
-    store.saveItem(STORENAME.CATEGORY_STORAGE_KEY,categoryStorage);
-
+    LocalStorageController.saveItem(STORENAME.CATEGORY_STORAGE_KEY,categoryStorage);
     // render함수 호출
     this.drawCategory(categoryStorage);
   }
@@ -37,14 +35,13 @@ export class Category {
 
   // 카테고리 삭제
   categoryDelete(selectedValue: number) {
-    const store = new LocalStorageController;
-    const categoryStorage: Category[] = store.getItem(STORENAME.CATEGORY_STORAGE_KEY);
+    const categoryStorage: Category[] = LocalStorageController.getItem(STORENAME.CATEGORY_STORAGE_KEY);
     let checkCategory = categoryStorage[selectedValue].categoryItem;
     const existsTodoList = this.existsTodoList(checkCategory);
 
     if (!existsTodoList) {
       categoryStorage.splice(selectedValue, 1);
-      store.saveItem(STORENAME.CATEGORY_STORAGE_KEY,categoryStorage);
+      LocalStorageController.saveItem(STORENAME.CATEGORY_STORAGE_KEY,categoryStorage);
       this.drawCategory(categoryStorage);
     } else {
       alert("이미 사용중인 카테고리는 삭제할 수 없습니다");
@@ -55,8 +52,7 @@ export class Category {
   // 삭제할 때 투두리스트에서 사용중인 카테고리 체크
   existsTodoList(category: string): boolean {
     let isExists = false;
-    const store = new LocalStorageController();
-    let usedCategories: TodoItem[] = store.getItem<TodoItem>(STORENAME.TODO_STORAGE_KEY);
+    let usedCategories: TodoItem[] = LocalStorageController.getItem<TodoItem>(STORENAME.TODO_STORAGE_KEY);
     usedCategories.forEach((element: HasFormatter) => {
       if (element.category === category) {
         isExists = true;
@@ -69,8 +65,7 @@ export class Category {
   // 이미 작성한 카테고리인지 체크
   existsCategory(category: string): boolean {
     let isExists = false;
-    const store = new LocalStorageController();
-    let usedCategories: Category[] = store.getItem<Category>(STORENAME.CATEGORY_STORAGE_KEY);
+    let usedCategories: Category[] = LocalStorageController.getItem<Category>(STORENAME.CATEGORY_STORAGE_KEY);
     usedCategories.forEach((element: Category) => {
       if (element.categoryItem === category) {
         isExists = true;

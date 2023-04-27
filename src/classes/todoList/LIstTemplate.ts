@@ -8,8 +8,6 @@ export class ListTemplate {
 
   // 투두리스트 랜더링
   render(item: HasFormatter, index: number) {
-    // 로컬스토리지
-    const store = new LocalStorageController();
     // li추가
     const li = document.createElement("li");
 
@@ -52,7 +50,7 @@ export class ListTemplate {
     // 체크박스 클릭 이벤트
     chkbox.addEventListener("change", function () {
       let todoIdx = Number(this.value);
-      let todos: TodoItem[] = store.getItem(STORENAME.TODO_STORAGE_KEY)
+      let todos: TodoItem[] = LocalStorageController.getItem(STORENAME.TODO_STORAGE_KEY)
       const isFinished = todoItem.isFinished(todos[todoIdx].dueDate);
       if (h4.classList.contains("complete")) {
         h4.classList.remove("complete");
@@ -73,7 +71,7 @@ export class ListTemplate {
         todos[todoIdx].changeStatus = "";
       }
       // todo 체크 바뀐거 로컬스토리지에 재저장
-      store.saveItem(STORENAME.TODO_STORAGE_KEY, todos);
+      LocalStorageController.saveItem(STORENAME.TODO_STORAGE_KEY, todos);
     });
 
     // 삭제버튼 생성 및 인덱스 추가

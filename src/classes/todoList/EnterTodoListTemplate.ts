@@ -1,18 +1,16 @@
-import { EmptyTemplate } from "../EmptyTemplate";
 import { LocalStorageController } from "../LocalStorageController.js";
 import { STORENAME } from "../StoreName.js";
 import { Category } from "../category/Category.js";
 
-export class TodoListTemplate {
+export class EnterTodoListTemplate {
 
   render() {
+    // render 해주기전 삭제
     const containner = document.querySelector("select") as HTMLSelectElement;
     containner.options.length = 0;
 
-    const store = new LocalStorageController();
-    const categories: Category[] = store.getItem<Category>(STORENAME.CATEGORY_STORAGE_KEY);
-
-    if(categories.length === 0){
+    const store: Category[] = LocalStorageController.getItem<Category>(STORENAME.CATEGORY_STORAGE_KEY);
+    if(store.length === 0){
       const selectBox = document.querySelector("#Category") as HTMLSelectElement;
       selectBox.classList.add("emptyStatus");
 
@@ -24,10 +22,10 @@ export class TodoListTemplate {
       categoryLabel.append(a);
       
     } else {
-      categories.forEach((categories) => {
+      store.forEach((category) => {
         const option = document.createElement("option");
-        option.value = categories.categoryItem;
-        option.text = categories.categoryItem;
+        option.value = category.categoryItem;
+        option.text = category.categoryItem;
   
         containner.append(option);
       });

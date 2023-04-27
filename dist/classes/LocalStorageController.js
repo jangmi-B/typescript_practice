@@ -1,21 +1,20 @@
-export class LocalStorageController {
-    constructor(storage = localStorage) {
-        this.storage = storage;
+class LocalStorageController {
+    static saveItem(key, value) {
+        const serializedValue = JSON.stringify(value);
+        this.storage.setItem(key, serializedValue);
     }
-    saveItem(key, value) {
-        const serializeObject = JSON.stringify(value);
-        this.storage.setItem(key, serializeObject);
-    }
-    getItem(key) {
-        const serializeObject = this.storage.getItem(key);
-        if (!serializeObject) {
+    static getItem(key) {
+        const serializedValue = this.storage.getItem(key);
+        if (!serializedValue) {
             return [];
         }
         else {
-            return JSON.parse(serializeObject);
+            return JSON.parse(serializedValue);
         }
     }
-    removeItem(key) {
+    static removeItem(key) {
         this.storage.removeItem(key);
     }
 }
+LocalStorageController.storage = localStorage;
+export { LocalStorageController };

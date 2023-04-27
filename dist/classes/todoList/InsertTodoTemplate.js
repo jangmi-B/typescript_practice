@@ -1,6 +1,6 @@
 import { LocalStorageController } from "../LocalStorageController.js";
 import { STORENAME } from "../StoreName.js";
-export class TodoListTemplate {
+export class InsertTodoListTemplate {
     render() {
         // render 해주기전 삭제
         const containner = document.querySelector("select");

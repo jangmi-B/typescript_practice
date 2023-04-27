@@ -1,6 +1,6 @@
 import { Todo } from "./classes/todoList/Todo.js";
 import { TodoItem } from "./classes/todoList/TodoItem.js";
-import { TodoListTemplate } from "./classes/todoList/enterTodoTemplate.js";
+import { EnterTodoListTemplate } from "./classes/todoList/EnterTodoListTemplate.js";
 
 // form DOM 객체 가져옴
 const form = document.querySelector(".todo-form") as HTMLFormElement;
@@ -8,7 +8,7 @@ const form = document.querySelector(".todo-form") as HTMLFormElement;
 const todo = new Todo();
 
 // 카테고리 생성
-const todoListTemplate = new TodoListTemplate();
+const todoListTemplate = new EnterTodoListTemplate();
 todoListTemplate.render();
 
 // dueDate 날짜 기본값 설정
@@ -49,10 +49,10 @@ form.addEventListener("submit", (e: Event) => {
   }
 
   // 유효한 날짜인지 확인
-  // if (!todoItem.isValid(dueDate)) {
-  //   dueDate.focus();
-  //   return;
-  // }
+  if (!todoItem.isValid(dueDate)) {
+    dueDate.focus();
+    return;
+  }
 
   // 유효성 통과하면 submit()
   todo.save(todoItem);

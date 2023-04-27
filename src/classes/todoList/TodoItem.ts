@@ -67,7 +67,7 @@ export class TodoItem implements HasFormatter {
 
     // 마감일 검증
     if (!this.isFinished(dueDate.valueAsNumber)) {
-      alert("마감일은 오늘날짜보다 작을 수 없습니다.");
+      alert("마감일은 오늘날짜보다 빠를 수 없습니다.");
       isValid = false;
     }
     return isValid;
