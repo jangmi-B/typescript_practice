@@ -1,59 +1,25 @@
-import { HasFormatter } from "../Interface/HasFormatter.js";
-import { Category } from "./category/Category";
-import { STORENAME } from "./StoreName.js";
-
 export class LocalStorageController {
-  ////////////////todo///////////////////
-  // datoTodos = {};
-  // dataCategories = {};
+  storage: Storage;
 
-  // constructor() {
-  //   // localstorage -> datoTodos
-  //   // localstorage -> dataCategories
-  // }
+  constructor(storage: Storage = localStorage){
+    this.storage = storage;
+  }
 
-  static getTodos(): HasFormatter[] {
-    const localStore = localStorage.getItem(STORENAME.TODO_STORAGE_KEY);
-    if (localStore) {
-      let todos: HasFormatter[] = this.getItems();
-      return todos;
+  saveItem(key: string, value: object){
+    const serializeObject = JSON.stringify(value);
+    this.storage.setItem(key, serializeObject);
+  }
+
+  getItem<T>(key: string): T[]{
+    const serializeObject = this.storage.getItem(key);
+    if(!serializeObject){
+      return [];
+    } else {
+      return JSON.parse(serializeObject) as T[];
     }
-    return [];
   }
 
-  static saveTodos(todos: HasFormatter[]): void {
-    const todosList = JSON.stringify(todos);
-    localStorage.setItem(STORENAME.TODO_STORAGE_KEY, todosList);
-  }
-
-  static getItems(): HasFormatter[] {
-    let todos: HasFormatter[] = [];
-    let localStore = localStorage.getItem(STORENAME.TODO_STORAGE_KEY);
-    let parsedTodos = JSON.parse(localStore || "null");
-    todos = parsedTodos;
-
-    return todos;
-  }
-
-  ////////////////category///////////////////
-
-  static getCategories(): Category[] {
-    let categories: Category[] = [];
-    let localStore = localStorage.getItem(STORENAME.CATEGORY_STORAGE_KEY);
-    if (localStore) {
-      let parsedTodos = JSON.parse(localStore);
-      categories = parsedTodos;
-      return categories;
-    }
-    return [];
-  }
-
-  // appendCategory(category) {
-  //   this.datoTodos.push(category)
-  // }
-
-  static saveCategories(category: Category[]) {
-    const categoryList = JSON.stringify(category);
-    localStorage.setItem(STORENAME.CATEGORY_STORAGE_KEY, categoryList);
+  removeItem(key: string){
+    this.storage.removeItem(key);
   }
 }

@@ -1,4 +1,6 @@
 import { LocalStorageController } from "../LocalStorageController.js";
+import { STORENAME } from "../StoreName.js";
+import { CategoryListTemplate } from "./CategoryListTemplate.js";
 export class Category {
     constructor() {
         this.categoryItem = "";
@@ -10,61 +12,44 @@ export class Category {
             alert("이미 존재하는 카테고리 입니다.");
             return;
         }
-        // 로컬스토리지에 저장
-        let localCategories = LocalStorageController.getCategories() != null
-            ? LocalStorageController.getCategories()
-            : [];
-        localCategories.push(category);
-        LocalStorageController.saveCategories(localCategories);
-        localCategories = LocalStorageController.getCategories();
-        // const categoryStorage = LocalStorageController.loadStore("category")
-        // LocalStorageController.append(category);
-        // LocalStorageController.store();
-        // localCategories = LocalStorageController.getCategories();
-        // // 기존내용 지우고 새롭게 랜더링
-        // categoryList.innerHTML = "";
-        // localCategories.forEach((element: Category, index: number) => {
-        //   categoryFormat.render(element, index);
-        // });
+        // 로컬스토리지 생성
+        const store = new LocalStorageController;
+        const categoryStorage = store.getItem(STORENAME.CATEGORY_STORAGE_KEY);
+        categoryStorage.push(category);
+        store.saveItem(STORENAME.CATEGORY_STORAGE_KEY, categoryStorage);
+        // render함수 호출
+        this.drawCategory(categoryStorage);
     }
-    // 그릴때 넘겨주기
-    // drawCategory() {
-    //   const categoryList = document.querySelector("ul")!;
-    //   const categoryFormat = new CategoryListTemplate(categoryList);
-    // }
+    // 새로 그리는 함수
+    drawCategory(categoryStorage) {
+        const categoryList = document.querySelector("ul");
+        const categoryListTemplate = new CategoryListTemplate(categoryList);
+        categoryList.innerHTML = "";
+        categoryStorage.forEach((element, index) => {
+            categoryListTemplate.render(element, index);
+        });
+    }
     // 카테고리 삭제
     categoryDelete(selectedValue) {
-        let categories = LocalStorageController.getCategories();
-        const categoryList = document.querySelector("ul"); //VIEW
-        let checkCategory = categories[selectedValue].categoryItem;
-        // 투두리스트에서 사용중인지 체크
-        const isContain = this.existsTodoList(checkCategory);
-        if (!isContain) {
-            // 배열 삭제
-            // 다시 그리기
-            categoryList.children[selectedValue].remove(); //VIEW
-            categories.splice(selectedValue, 1);
-            LocalStorageController.saveCategories(categories);
-            this.changeIndex(selectedValue);
+        const store = new LocalStorageController;
+        const categoryStorage = store.getItem(STORENAME.CATEGORY_STORAGE_KEY);
+        let checkCategory = categoryStorage[selectedValue].categoryItem;
+        const existsTodoList = this.existsTodoList(checkCategory);
+        if (!existsTodoList) {
+            categoryStorage.splice(selectedValue, 1);
+            store.saveItem(STORENAME.CATEGORY_STORAGE_KEY, categoryStorage);
+            this.drawCategory(categoryStorage);
         }
         else {
             alert("이미 사용중인 카테고리는 삭제할 수 없습니다");
             return;
         }
     }
-    changeIndex(idx) {
-        const delBtn = document.querySelectorAll(".deleteBtn");
-        delBtn.forEach((button) => {
-            const curValue = parseInt(button.getAttribute("value"));
-            if (curValue > idx) {
-                button.setAttribute("value", `${curValue - 1}`);
-            }
-        });
-    }
     // 삭제할 때 투두리스트에서 사용중인 카테고리 체크
     existsTodoList(category) {
         let isExists = false;
-        let usedCategories = LocalStorageController.getTodos();
+        const store = new LocalStorageController();
+        let usedCategories = store.getItem(STORENAME.TODO_STORAGE_KEY);
         usedCategories.forEach((element) => {
             if (element.category === category) {
                 isExists = true;
@@ -76,7 +61,8 @@ export class Category {
     // 이미 작성한 카테고리인지 체크
     existsCategory(category) {
         let isExists = false;
-        let usedCategories = LocalStorageController.getCategories();
+        const store = new LocalStorageController();
+        let usedCategories = store.getItem(STORENAME.CATEGORY_STORAGE_KEY);
         usedCategories.forEach((element) => {
             if (element.categoryItem === category) {
                 isExists = true;

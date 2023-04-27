@@ -1,5 +1,6 @@
 import { HasFormatter } from "../../Interface/HasFormatter.js";
 import { LocalStorageController } from "../LocalStorageController.js";
+import { STORENAME } from "../StoreName.js";
 import { TodoItem } from "./TodoItem.js";
 
 export class ListTemplate {
@@ -7,6 +8,8 @@ export class ListTemplate {
 
   // 투두리스트 랜더링
   render(item: HasFormatter, index: number) {
+    // 로컬스토리지
+    const store = new LocalStorageController();
     // li추가
     const li = document.createElement("li");
 
@@ -37,7 +40,6 @@ export class ListTemplate {
     // 완료날짜가 지난 이후 미완료 체크
     if (!isFinished && item.changeStatus === "on") {
       h4.classList.add("not-finish");
-      // h4.append(" (★미완료★)");
     }
 
     // 종료되면 초록 진행중이면 파랑으로 표시하기 위한 클래스 추가
@@ -50,7 +52,7 @@ export class ListTemplate {
     // 체크박스 클릭 이벤트
     chkbox.addEventListener("change", function () {
       let todoIdx = Number(this.value);
-      let todos: HasFormatter[] = LocalStorageController.getItems();
+      let todos: TodoItem[] = store.getItem(STORENAME.TODO_STORAGE_KEY)
       const isFinished = todoItem.isFinished(todos[todoIdx].dueDate);
       if (h4.classList.contains("complete")) {
         h4.classList.remove("complete");
@@ -70,9 +72,8 @@ export class ListTemplate {
         todos[todoIdx].isDone = "true";
         todos[todoIdx].changeStatus = "";
       }
-
       // todo 체크 바뀐거 로컬스토리지에 재저장
-      LocalStorageController.saveTodos(todos);
+      store.saveItem(STORENAME.TODO_STORAGE_KEY, todos);
     });
 
     // 삭제버튼 생성 및 인덱스 추가

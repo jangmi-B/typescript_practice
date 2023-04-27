@@ -3,14 +3,16 @@ import { EmptyTemplate } from "./classes/EmptyTemplate.js";
 import { LocalStorageController } from "./classes/LocalStorageController.js";
 import { Todo } from "./classes/todoList/Todo.js";
 import { TodoItem } from "./classes/todoList/TodoItem.js";
+import { STORENAME } from "./classes/StoreName.js";
 // form DOM 객체 가져옴
 const form = document.querySelector(".todo-form");
 const todoList = document.querySelector("ul");
 // render()를 위한 객체생성
 const listFormat = new ListTemplate(todoList);
 const emptyFormat = new EmptyTemplate(todoList);
+const store = new LocalStorageController();
 // local에 저장된 내용없으면 clear로 비워주기
-let local = LocalStorageController.getTodos();
+let local = store.getItem(STORENAME.TODO_STORAGE_KEY);
 if (local.length == 0) {
     emptyFormat.render();
     localStorage.removeItem("todos");
@@ -29,7 +31,9 @@ rightSide.addEventListener("click", (e) => {
     // 타입이 버튼일때만 삭제 이벤트 실행
     if (clicked.type === "button") {
         const clickedValue = Number(clicked.value);
-        todo.delete(clickedValue);
+        if (confirm("정말 삭제하시겠습니까?")) {
+            todo.delete(clickedValue);
+        }
     }
     // 삭제이후에 li태그 비어있으면 다시 빈 템플릿 그리기
     const todoList = document.querySelector("ul");
